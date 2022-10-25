@@ -14,6 +14,7 @@ type GinController interface {
 	Routes(g gin.IRoutes)
 }
 
+// Deprecated
 func GinRegController(g *gin.Engine, gc GinController) {
 	var gp gin.IRoutes
 	if g == nil || gc == nil {

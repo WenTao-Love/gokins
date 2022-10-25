@@ -11,7 +11,6 @@ import (
 	"github.com/gokins/gokins/util/httpex"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gokins/core"
 	"github.com/gokins/core/common"
 	"github.com/gokins/core/utils"
 	"github.com/gokins/gokins/comm"
@@ -87,7 +86,7 @@ func (InstallController) install(c *gin.Context, m *installConfig) {
 		c.String(500, "hbtp host err:%s", m.Server.HbtpHost)
 		return
 	}
-	if m.Datasource.Driver == comm.DATASOURCE_DRIVER_MYSQL ||m.Datasource.Driver == comm.DATASOURCE_DRIVER_POSTGRES {
+	if m.Datasource.Driver == comm.DATASOURCE_DRIVER_MYSQL || m.Datasource.Driver == comm.DATASOURCE_DRIVER_POSTGRES {
 		if !common.RegHost2.MatchString(m.Datasource.Host) {
 			c.String(500, "dbhost err:%s", m.Datasource.Host)
 			return
@@ -159,329 +158,331 @@ func Install(c *gin.Context) {
 		httpex.ResMsgUrl(c, "重复操作,跳转中...", "/")
 		return
 	}
-	bts := []byte(`
-	<!DOCTYPE html>
-	<html lang="en">
-	
-	<head>
-		<meta charset="UTF-8">
-		<title>安装</title>
-		<style>
-			.content {
-				position: absolute;
-				left: 50%;
-				left: 50%;
-				top: 10%;
-				width: 800px;
-				margin-left: -400px;
-				background: #eee;
-				padding: 10px;
-			}
-	
-			.content .layui-card div {
-				margin-bottom: 10px;
-			}
-	
-			.headers {
-				background: #fff;
-				padding-bottom: 10px;
-				line-height: 70px;
-				display: flex;
-			}
-	
-			.headers h1 {
-				color: #5360f7;
-			}
-	
-			.login-dog {
-				width: 100px;
-				height: 60px;
-				margin: 10px 20px 0 0;
-			}
-	
-			#msgDiv {
-				color: red;
-				text-align: center;
-			}
-		</style>
-		<!-- 引入 layui.css -->
-		<link rel="stylesheet" href="gokinsui/plugs/layui.css" />
-		<!-- 引入 layui.js -->
-	</head>
-	
-	<body>
-		<div class="content">
-			<div class="headers" style="margin: 0;">
-				<div style="flex: 1;"></div>
-				<img class="login-dog" src="gokinsui/imgs/logo.png" />
-				<div style="padding-top: 5px;">
-					<h1>安装Gokins</h1>
-				</div>
-				<div style="flex: 1;"></div>
-			</div>
-	
-			<div class="layui-card">
-				<div class="layui-card-body">
-					<form class="layui-form" action="javascript:onInstal()">
-						<div class="layui-form-item">
-							<label class="layui-form-label">访问地址</label>
-							<div class="layui-input-inline" style="width:300px">
-								<input type="text" id="hostTxt" name="txt1" lay-verify="required" placeholder="请输入标题" autocomplete="off"
-									class="layui-input">
-							</div>
-							<div class="layui-form-mid layui-word-aux">需要 webhook,ssh,制品下载 建议使用<span style="color:red">外网</span></div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">插件服务</label>
-							<div class="layui-input-inline">
-								<select id="plugServ" lay-filter="plugs">
-									<option value="">不启用</option>
-									<option value="1">内网</option>
-									<option value="2">外网</option>
-								</select>
-							</div>
-							<div class="layui-input-inline" style="width:100px">
-								<input type="text" id="plugPort" name="txt2" placeholder="服务端口" autocomplete="off" class="layui-input">
-							</div>
-							<div class="layui-input-inline" style="width:200px">
-								<input type="text" id="plugSecret" name="txt3" placeholder="服务Secret" autocomplete="off"
-									class="layui-input">
-							</div>
-							<!-- <div class="layui-form-mid layui-word-aux">差</div> -->
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">数据库</label>
-							<div class="layui-input-inline">
-								<select id="dbDriver">
+	//bts := []byte(`
+	//<!DOCTYPE html>
+	//<html lang="en">
+	//
+	//<head>
+	//	<meta charset="UTF-8">
+	//	<title>安装</title>
+	//	<style>
+	//		.content {
+	//			position: absolute;
+	//			left: 50%;
+	//			left: 50%;
+	//			top: 10%;
+	//			width: 800px;
+	//			margin-left: -400px;
+	//			background: #eee;
+	//			padding: 10px;
+	//		}
+	//
+	//		.content .layui-card div {
+	//			margin-bottom: 10px;
+	//		}
+	//
+	//		.headers {
+	//			background: #fff;
+	//			padding-bottom: 10px;
+	//			line-height: 70px;
+	//			display: flex;
+	//		}
+	//
+	//		.headers h1 {
+	//			color: #5360f7;
+	//		}
+	//
+	//		.login-dog {
+	//			width: 100px;
+	//			height: 60px;
+	//			margin: 10px 20px 0 0;
+	//		}
+	//
+	//		#msgDiv {
+	//			color: red;
+	//			text-align: center;
+	//		}
+	//	</style>
+	//	<!-- 引入 layui.css -->
+	//	<link rel="stylesheet" href="gokinsui/plugs/layui.css" />
+	//	<!-- 引入 layui.js -->
+	//</head>
+	//
+	//<body>
+	//	<div class="content">
+	//		<div class="headers" style="margin: 0;">
+	//			<div style="flex: 1;"></div>
+	//			<img class="login-dog" src="gokinsui/imgs/logo.png" />
+	//			<div style="padding-top: 5px;">
+	//				<h1>安装Gokins</h1>
+	//			</div>
+	//			<div style="flex: 1;"></div>
+	//		</div>
+	//
+	//		<div class="layui-card">
+	//			<div class="layui-card-body">
+	//				<form class="layui-form" action="javascript:onInstal()">
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">访问地址</label>
+	//						<div class="layui-input-inline" style="width:300px">
+	//							<input type="text" id="hostTxt" name="txt1" lay-verify="required" placeholder="请输入标题" autocomplete="off"
+	//								class="layui-input">
+	//						</div>
+	//						<div class="layui-form-mid layui-word-aux">需要 webhook,ssh,制品下载 建议使用<span style="color:red">外网</span></div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">插件服务</label>
+	//						<div class="layui-input-inline">
+	//							<select id="plugServ" lay-filter="plugs">
+	//								<option value="">不启用</option>
+	//								<option value="1">内网</option>
+	//								<option value="2">外网</option>
+	//							</select>
+	//						</div>
+	//						<div class="layui-input-inline" style="width:100px">
+	//							<input type="text" id="plugPort" name="txt2" placeholder="服务端口" autocomplete="off" class="layui-input">
+	//						</div>
+	//						<div class="layui-input-inline" style="width:200px">
+	//							<input type="text" id="plugSecret" name="txt3" placeholder="服务Secret" autocomplete="off"
+	//								class="layui-input">
+	//						</div>
+	//						<!-- <div class="layui-form-mid layui-word-aux">差</div> -->
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">数据库</label>
+	//						<div class="layui-input-inline">
+	//							<select id="dbDriver">
+	//
+	//								<option value="sqlite">sqlite</option>
+	//								<option value="mysql" selected>mysql</option>
+	//								<option value="postgres">postgres</option>
+	//
+	//							</select>
+	//						</div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">数据库地址</label>
+	//						<div class="layui-input-inline" style="width:300px">
+	//							<input type="text" id="dbhostTxt" name="txt4" lay-verify="required" value="localhost:3306"
+	//								autocomplete="off" class="layui-input">
+	//						</div>
+	//						<div class="layui-form-mid layui-word-aux">Mysql或Postgres链接地址</div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">数据库名称</label>
+	//						<div class="layui-input-inline" style="width:200px">
+	//							<input type="text" id="dbnameTxt" name="txt5" lay-verify="required" value="gokins" autocomplete="off"
+	//								class="layui-input">
+	//						</div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">数据库用户</label>
+	//						<div class="layui-input-inline" style="width:200px">
+	//							<input type="text" id="dbuserTxt" name="txt5" required lay-verify="required" value="root"
+	//								autocomplete="off" class="layui-input">
+	//						</div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<label class="layui-form-label">数据库密码</label>
+	//						<div class="layui-input-inline" style="width:200px">
+	//							<input type="text" id="dbpassTxt" name="txt6" value="" autocomplete="off" class="layui-input">
+	//						</div>
+	//					</div>
+	//					<div class="layui-form-item">
+	//						<div style="text-align: center;">
+	//							<button class="layui-btn layui-btn-normal" lay-submit lay-filter="formd" id="subBtn">立即安装</button>
+	//						</div>
+	//					</div>
+	//				</form>
+	//				<div id="msgDiv"></div>
+	//			</div>
+	//		</div>
+	//	</div>
+	//	<script src="gokinsui/plugs/axios.js"></script>
+	//	<script src="gokinsui/plugs/jquery.js"></script>
+	//	<script src="gokinsui/plugs/layui.js"></script>
+	//	<script>
+	//		var msgDiv = $('#msgDiv');
+	//		var subBtn = $('#subBtn');
+	//		var service = axios.create({
+	//			baseURL: "/api", // api base_url
+	//			// baseURL: 'http://n.1ydt.com:8072', // api base_url
+	//			//timeout: 5000, // 请求超时时间
+	//			withCredentials: true
+	//		});
+	//
+	//		var regul = /^(https?:)\/\/([\w\.]+)(:\d+)?/;
+	//		var reghost = /^([\w\.]+)(:\d+)?$/;
+	//
+	//		function plugChange() {
+	//			switch ($('#plugServ').val()) {
+	//				case '1':
+	//					if($('#plugPort').val()=='')
+	//						$('#plugPort').val('8031');
+	//					$('#plugSecret').val('');
+	//					$('#plugPort').removeAttr('disabled');
+	//					$('#plugSecret').prop('disabled', 'disabled');
+	//					break
+	//				case '2':
+	//					if($('#plugPort').val()=='')
+	//						$('#plugPort').val('8031');
+	//					$('#plugPort').removeAttr('disabled');
+	//					$('#plugSecret').removeAttr('disabled');
+	//					break
+	//				default:
+	//					$('#plugPort').val('');
+	//					$('#plugSecret').val('');
+	//					$('#plugPort').prop('disabled', 'disabled');
+	//					$('#plugSecret').prop('disabled', 'disabled');
+	//					break
+	//			}
+	//		}
+	//		plugChange()
+	//
+	//		/* function dbChange() {
+	//			switch ($('#dbDriver').val()) {
+	//				case 'mysql':
+	//					$('#mysqlDiv').show();
+	//					break
+	//				default:
+	//					$('#mysqlDiv').hide();
+	//					break
+	//			}
+	//		}
+	//		dbChange() */
+	//
+	//
+	//		var lyform = null;
+	//		layui.use('form', function () {
+	//			lyform = layui.form;
+	//			//各种基于事件的操作，下面会有进一步介绍
+	//
+	//			lyform.on('select(plugs)', function (data) {
+	//				plugChange()
+	//			})
+	//		});
+	//
+	//
+	//
+	//
+	//
+	//		function onInstal() {
+	//			try {
+	//				var csjs = {
+	//					"server": {
+	//						"host": $('#hostTxt').val()
+	//					},
+	//					"datasource": {
+	//						"driver": ''
+	//					}
+	//				};
+	//				if (!regul.test(csjs.server.host)) {
+	//					layer.msg('访问地址格式错误', { icon: 2 });
+	//					return
+	//				}
+	//				switch ($('#plugServ').val()) {
+	//					case '1':
+	//						var hbtpPort = $('#plugPort').val();
+	//						if (!/^\d+$/.test(hbtpPort)) {
+	//							layer.msg('插件服务端口格式错误', { icon: 2 });
+	//							return
+	//						}
+	//						csjs.server.hbtpHost = '127.0.0.1:' + hbtpPort;
+	//						break
+	//					case '2':
+	//						var hbtpPort = $('#plugPort').val();
+	//						if (!/^\d+$/.test(hbtpPort)) {
+	//							layer.msg('插件服务端口格式错误', { icon: 2 });
+	//							return
+	//						}
+	//						csjs.server.hbtpHost = ':' + hbtpPort;
+	//						csjs.server.secret = $('#plugSecret').val();
+	//						break
+	//				}
+	//				switch ($('#dbDriver').val()) {
+	//					case 'mysql':
+	//					case 'postgres':
+	//						var dburl = '';
+	//						var dbhost = $('#dbhostTxt').val();
+	//						var dbname = $('#dbnameTxt').val();
+	//						var dbuser = $('#dbuserTxt').val();
+	//						var dbpass = $('#dbpassTxt').val();
+	//						if (!reghost.test(dbhost)) {
+	//							layer.msg('数据库地址格式错误', { icon: 2 });
+	//							return
+	//						}
+	//						if (dbname == '') {
+	//							layer.msg('数据库名称必填', { icon: 2 });
+	//							return
+	//						}
+	//						if (dbuser == '') {
+	//							layer.msg('数据库用户必填', { icon: 2 });
+	//							return
+	//						}
+	//						csjs.datasource.driver = $('#dbDriver').val();
+	//						csjs.datasource.host = dbhost;
+	//						csjs.datasource.name = dbname;
+	//						csjs.datasource.user = dbuser;
+	//						csjs.datasource.pass = dbpass;
+	//						break
+	//					default:
+	//						csjs.datasource.driver = 'sqlite';
+	//						break
+	//				}
+	//
+	//				console.log('start install', csjs);
+	//				subBtn.attr('disabled', 'disabled');
+	//				subBtn.addClass('layui-btn-disabled');
+	//				service.post('/install', csjs).then(function (res) {
+	//					// subBtn.removeAttr('disabled');
+	//					subBtn.value = '跳转中';
+	//					msgDiv.text('安装成功:' + res.data);
+	//					layer.msg('安装成功:' + res.data, { icon: 1 });
+	//					setTimeout(function () {
+	//						window.location = 'gokins';
+	//					}, 1000)
+	//				}).catch(function (err) {
+	//					subBtn.removeAttr('disabled');
+	//					subBtn.removeClass('layui-btn-disabled');
+	//					console.log('install err:', err);
+	//					msgDiv.text('安装失败:' + (err.response ? err.response.data || '服务器错误' : '网络错误'));
+	//
+	//					const stat = err.response ? err.response.status : 0;
+	//					switch (stat) {
+	//						case 404:
+	//							window.location = 'gokins';
+	//							break
+	//						case 511:
+	//							layer.msg('无法连接访问地址,请重试!', { icon: 2 });
+	//							break
+	//						case 512:
+	//							layer.msg('无法初始化数据库,请重试!', { icon: 2 });
+	//							break
+	//					}
+	//				});
+	//			} catch (e) {
+	//				msgDiv.text('安装失败,json错误:' + e);
+	//			}
+	//		}
+	//
+	//		var hrefs = window.location.href;
+	//		if (regul.test(hrefs)) {
+	//			var mts = hrefs.match(regul);
+	//			console.log('match', mts);
+	//			$('#hostTxt').val(mts[0]);
+	//		}
+	//	</script>
+	//</body>
+	//
+	//</html>
+	//`)
+	//if core.Debug {
+	//	bs, err := ioutil.ReadFile("install.html")
+	//	if err == nil {
+	//		bts = bs
+	//	}
+	//}
+	//c.Data(200, "text/html", bts)
 
-									<option value="sqlite">sqlite</option>
-									<option value="mysql" selected>mysql</option>
-									<option value="postgres">postgres</option>
-                  
-								</select>
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">数据库地址</label>
-							<div class="layui-input-inline" style="width:300px">
-								<input type="text" id="dbhostTxt" name="txt4" lay-verify="required" value="localhost:3306"
-									autocomplete="off" class="layui-input">
-							</div>
-							<div class="layui-form-mid layui-word-aux">Mysql或Postgres链接地址</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">数据库名称</label>
-							<div class="layui-input-inline" style="width:200px">
-								<input type="text" id="dbnameTxt" name="txt5" lay-verify="required" value="gokins" autocomplete="off"
-									class="layui-input">
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">数据库用户</label>
-							<div class="layui-input-inline" style="width:200px">
-								<input type="text" id="dbuserTxt" name="txt5" required lay-verify="required" value="root"
-									autocomplete="off" class="layui-input">
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">数据库密码</label>
-							<div class="layui-input-inline" style="width:200px">
-								<input type="text" id="dbpassTxt" name="txt6" value="" autocomplete="off" class="layui-input">
-							</div>
-						</div>
-						<div class="layui-form-item">
-							<div style="text-align: center;">
-								<button class="layui-btn layui-btn-normal" lay-submit lay-filter="formd" id="subBtn">立即安装</button>
-							</div>
-						</div>
-					</form>
-					<div id="msgDiv"></div>
-				</div>
-			</div>
-		</div>
-		<script src="gokinsui/plugs/axios.js"></script>
-		<script src="gokinsui/plugs/jquery.js"></script>
-		<script src="gokinsui/plugs/layui.js"></script>
-		<script>
-			var msgDiv = $('#msgDiv');
-			var subBtn = $('#subBtn');
-			var service = axios.create({
-				baseURL: "/api", // api base_url
-				// baseURL: 'http://n.1ydt.com:8072', // api base_url
-				//timeout: 5000, // 请求超时时间
-				withCredentials: true
-			});
-	
-			var regul = /^(https?:)\/\/([\w\.]+)(:\d+)?/;
-			var reghost = /^([\w\.]+)(:\d+)?$/;
-	
-			function plugChange() {
-				switch ($('#plugServ').val()) {
-					case '1':
-						if($('#plugPort').val()=='')
-							$('#plugPort').val('8031');
-						$('#plugSecret').val('');
-						$('#plugPort').removeAttr('disabled');
-						$('#plugSecret').prop('disabled', 'disabled');
-						break
-					case '2':
-						if($('#plugPort').val()=='')
-							$('#plugPort').val('8031');
-						$('#plugPort').removeAttr('disabled');
-						$('#plugSecret').removeAttr('disabled');
-						break
-					default:
-						$('#plugPort').val('');
-						$('#plugSecret').val('');
-						$('#plugPort').prop('disabled', 'disabled');
-						$('#plugSecret').prop('disabled', 'disabled');
-						break
-				}
-			}
-			plugChange()
-	
-			/* function dbChange() {
-				switch ($('#dbDriver').val()) {
-					case 'mysql':
-						$('#mysqlDiv').show();
-						break
-					default:
-						$('#mysqlDiv').hide();
-						break
-				}
-			}
-			dbChange() */
-	
-	
-			var lyform = null;
-			layui.use('form', function () {
-				lyform = layui.form;
-				//各种基于事件的操作，下面会有进一步介绍
-	
-				lyform.on('select(plugs)', function (data) {
-					plugChange()
-				})
-			});
-	
-	
-	
-	
-	
-			function onInstal() {
-				try {
-					var csjs = {
-						"server": {
-							"host": $('#hostTxt').val()
-						},
-						"datasource": {
-							"driver": ''
-						}
-					};
-					if (!regul.test(csjs.server.host)) {
-						layer.msg('访问地址格式错误', { icon: 2 });
-						return
-					}
-					switch ($('#plugServ').val()) {
-						case '1':
-							var hbtpPort = $('#plugPort').val();
-							if (!/^\d+$/.test(hbtpPort)) {
-								layer.msg('插件服务端口格式错误', { icon: 2 });
-								return
-							}
-							csjs.server.hbtpHost = '127.0.0.1:' + hbtpPort;
-							break
-						case '2':
-							var hbtpPort = $('#plugPort').val();
-							if (!/^\d+$/.test(hbtpPort)) {
-								layer.msg('插件服务端口格式错误', { icon: 2 });
-								return
-							}
-							csjs.server.hbtpHost = ':' + hbtpPort;
-							csjs.server.secret = $('#plugSecret').val();
-							break
-					}
-					switch ($('#dbDriver').val()) {
-						case 'mysql':
-						case 'postgres':
-							var dburl = '';
-							var dbhost = $('#dbhostTxt').val();
-							var dbname = $('#dbnameTxt').val();
-							var dbuser = $('#dbuserTxt').val();
-							var dbpass = $('#dbpassTxt').val();
-							if (!reghost.test(dbhost)) {
-								layer.msg('数据库地址格式错误', { icon: 2 });
-								return
-							}
-							if (dbname == '') {
-								layer.msg('数据库名称必填', { icon: 2 });
-								return
-							}
-							if (dbuser == '') {
-								layer.msg('数据库用户必填', { icon: 2 });
-								return
-							}
-							csjs.datasource.driver = $('#dbDriver').val();
-							csjs.datasource.host = dbhost;
-							csjs.datasource.name = dbname;
-							csjs.datasource.user = dbuser;
-							csjs.datasource.pass = dbpass;
-							break
-						default:
-							csjs.datasource.driver = 'sqlite';
-							break
-					}
-	
-					console.log('start install', csjs);
-					subBtn.attr('disabled', 'disabled');
-					subBtn.addClass('layui-btn-disabled');
-					service.post('/install', csjs).then(function (res) {
-						// subBtn.removeAttr('disabled');
-						subBtn.value = '跳转中';
-						msgDiv.text('安装成功:' + res.data);
-						layer.msg('安装成功:' + res.data, { icon: 1 });
-						setTimeout(function () {
-							window.location = 'gokins';
-						}, 1000)
-					}).catch(function (err) {
-						subBtn.removeAttr('disabled');
-						subBtn.removeClass('layui-btn-disabled');
-						console.log('install err:', err);
-						msgDiv.text('安装失败:' + (err.response ? err.response.data || '服务器错误' : '网络错误'));
-	
-						const stat = err.response ? err.response.status : 0;
-						switch (stat) {
-							case 404:
-								window.location = 'gokins';
-								break
-							case 511:
-								layer.msg('无法连接访问地址,请重试!', { icon: 2 });
-								break
-							case 512:
-								layer.msg('无法初始化数据库,请重试!', { icon: 2 });
-								break
-						}
-					});
-				} catch (e) {
-					msgDiv.text('安装失败,json错误:' + e);
-				}
-			}
-	
-			var hrefs = window.location.href;
-			if (regul.test(hrefs)) {
-				var mts = hrefs.match(regul);
-				console.log('match', mts);
-				$('#hostTxt').val(mts[0]);
-			}
-		</script>
-	</body>
-	
-	</html>
-	`)
-	if core.Debug {
-		bs, err := ioutil.ReadFile("install.html")
-		if err == nil {
-			bts = bs
-		}
-	}
-	c.Data(200, "text/html", bts)
+	c.HTML(200, "install.html", nil)
 }
