@@ -622,6 +622,8 @@ github.com/gokins/runner v0.0.0-20221002083504-fc86169e3656 h1:KvhS3l2N6yyCVobx2
 github.com/gokins/runner v0.0.0-20221002083504-fc86169e3656/go.mod h1:dIc0vvNEV7PPWIlgE30HqMFRfTl89i0FYRgt0DENajM=
 github.com/gokins/runner v0.0.0-20221016163054-edffdcc1e1fb h1:fyDCnutY8a+ky7j1u+4jLFueYtCxhB74JiZclVlftTU=
 github.com/gokins/runner v0.0.0-20221016163054-edffdcc1e1fb/go.mod h1:srnzvIPWdaKzsf6ADxxMTruKKInK7Rx/3hezJqlhFDk=
+github.com/gokins/runner v0.0.0-20221107075130-8205f31fefb0 h1:r+Ylg//z+OVNX70vFylaV/YAjXPJkLienJ3pZ20ufZ8=
+github.com/gokins/runner v0.0.0-20221107075130-8205f31fefb0/go.mod h1:srnzvIPWdaKzsf6ADxxMTruKKInK7Rx/3hezJqlhFDk=
 github.com/golang-jwt/jwt/v4 v4.0.0/go.mod h1:/xlHOz8bRuivTWchD4jCa+NbatV+wEUSzwAxVc6locg=
 github.com/golang-jwt/jwt/v4 v4.1.0/go.mod h1:/xlHOz8bRuivTWchD4jCa+NbatV+wEUSzwAxVc6locg=
 github.com/golang-migrate/migrate/v4 v4.14.1 h1:qmRd/rNGjM1r3Ve5gHd5ZplytrD02UcItYNxJ3iUHHE=
@@ -1762,6 +1764,8 @@ golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43 h1:OK7RB6t2WQX54srQQYSXMW8dF
 golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.1.0 h1:kunALQeHf1/185U1i0GOB/fy1IPRDDpuoOOqRReG57U=
 golang.org/x/sys v0.1.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
+golang.org/x/sys v0.2.0 h1:ljd4t30dBnAvMZaQCevtY0xLLD0A+bRZXbgLMLU1F/A=
+golang.org/x/sys v0.2.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/term v0.0.0-20201117132131-f5c789dd3221/go.mod h1:Nr5EML6q2oocZ2LXRh80K7BxOlk5/8JxuGnuhpl+muw=
 golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 h1:v+OssWQX+hTHEmOBgwxdZxK4zHq3yOs8F9J7mk0PY8E=
 golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=

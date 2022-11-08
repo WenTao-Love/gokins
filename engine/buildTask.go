@@ -1,26 +1,25 @@
 package engine
 
 import (
-	"context"
-	"fmt"
-	"os"
-	"path/filepath"
-	"regexp"
-	"runtime/debug"
-	"strconv"
-	"sync"
-	"time"
+  "context"
+  "fmt"
+  "os"
+  "path/filepath"
+  "regexp"
+  "runtime/debug"
+  "strconv"
+  "sync"
+  "time"
 
-	"github.com/go-git/go-git/v5/plumbing"
+  "github.com/go-git/go-git/v5/plumbing"
 
-	"github.com/go-git/go-git/v5"
-	ghttp "github.com/go-git/go-git/v5/plumbing/transport/http"
-	"github.com/gokins/core/common"
-	"github.com/gokins/core/runtime"
-	"github.com/gokins/gokins/comm"
-	"github.com/gokins/gokins/util"
-	hbtp "github.com/mgr9525/HyperByte-Transfer-Protocol"
-	"github.com/sirupsen/logrus"
+  ghttp "github.com/go-git/go-git/v5/plumbing/transport/http"
+  "github.com/gokins/core/common"
+  "github.com/gokins/core/runtime"
+  "github.com/gokins/gokins/comm"
+  "github.com/gokins/gokins/util"
+  hbtp "github.com/mgr9525/HyperByte-Transfer-Protocol"
+  "github.com/sirupsen/logrus"
 )
 
 type taskStage struct {
@@ -327,10 +326,10 @@ func (c *BuildTask) runStep(stage *taskStage, job *jobSync) {
 		time.Sleep(time.Millisecond * 10)
 	}
 	/*job.Lock()
-	defer job.Unlock()
-	if c.ctrlend && job.step.Status == common.BuildStatusError {
-		job.step.Status = common.BuildStatusCancel
-	}*/
+	  defer job.Unlock()
+	  if c.ctrlend && job.step.Status == common.BuildStatusError {
+	  	job.step.Status = common.BuildStatusCancel
+	  }*/
 }
 
 func (c *BuildTask) getRepo() error {
@@ -374,10 +373,16 @@ func (c *BuildTask) gitClone(ctx context.Context, clonePath string, repo *runtim
 		Progress:     c,
 		SingleBranch: true,
 	}
-	if repo.Name != "" {
-		gc.Auth = &ghttp.BasicAuth{
-			Username: repo.Name,
-			Password: repo.Token,
+	if repo.Token != "" {
+		if repo.Name != "" {
+			gc.Auth = &ghttp.BasicAuth{
+				Username: repo.Name,
+				Password: repo.Token,
+			}
+		} else {
+			gc.Auth = &ghttp.TokenAuth{
+				Token: repo.Token,
+			}
 		}
 	}
 	if repo.Sha != "" && !plumbing.IsHash(repo.Sha) {

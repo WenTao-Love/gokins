@@ -17,7 +17,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/goccy/go-json v0.9.11 // indirect
 	github.com/gokins/core v0.0.0-20220802013657-abe943553934
-	github.com/gokins/runner v0.0.0-20221016163054-edffdcc1e1fb
+	github.com/gokins/runner v0.0.0-20221107075130-8205f31fefb0
 	github.com/golang-migrate/migrate/v4 v4.15.2
 	github.com/google/go-github v17.0.0+incompatible // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
@@ -34,6 +34,7 @@ require (
 	github.com/xdg/scram v0.0.0-20180814205039-7eeb5667e42c // indirect
 	github.com/xdg/stringprep v1.0.0 // indirect
 	go.uber.org/atomic v1.10.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
 	golang.org/x/tools v0.2.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/alecthomas/kingpin.v2 v2.2.6
