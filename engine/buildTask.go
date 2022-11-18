@@ -1,25 +1,26 @@
 package engine
 
 import (
-  "context"
-  "fmt"
-  "os"
-  "path/filepath"
-  "regexp"
-  "runtime/debug"
-  "strconv"
-  "sync"
-  "time"
+	"context"
+	"fmt"
+	"os"
+	"path/filepath"
+	"regexp"
+	"runtime/debug"
+	"strconv"
+	"sync"
+	"time"
 
-  "github.com/go-git/go-git/v5/plumbing"
+	"github.com/go-git/go-git/v5/plumbing"
 
-  ghttp "github.com/go-git/go-git/v5/plumbing/transport/http"
-  "github.com/gokins/core/common"
-  "github.com/gokins/core/runtime"
-  "github.com/gokins/gokins/comm"
-  "github.com/gokins/gokins/util"
-  hbtp "github.com/mgr9525/HyperByte-Transfer-Protocol"
-  "github.com/sirupsen/logrus"
+	"github.com/go-git/go-git/v5"
+	ghttp "github.com/go-git/go-git/v5/plumbing/transport/http"
+	"github.com/gokins/core/common"
+	"github.com/gokins/core/runtime"
+	"github.com/gokins/gokins/comm"
+	"github.com/gokins/gokins/util"
+	hbtp "github.com/mgr9525/HyperByte-Transfer-Protocol"
+	"github.com/sirupsen/logrus"
 )
 
 type taskStage struct {
@@ -237,10 +238,10 @@ func (c *BuildTask) runStep(stage *taskStage, job *jobSync) {
 		}
 	}()
 
-	if len(job.runjb.Commands) <= 0 {
+	/* if len(job.runjb.Commands) <= 0 {
 		job.status(common.BuildStatusError, "command format empty", common.BuildEventJobCmds)
 		return
-	}
+	} */
 
 	job.RLock()
 	dendons := job.step.Waits
@@ -326,10 +327,10 @@ func (c *BuildTask) runStep(stage *taskStage, job *jobSync) {
 		time.Sleep(time.Millisecond * 10)
 	}
 	/*job.Lock()
-	  defer job.Unlock()
-	  if c.ctrlend && job.step.Status == common.BuildStatusError {
-	  	job.step.Status = common.BuildStatusCancel
-	  }*/
+	defer job.Unlock()
+	if c.ctrlend && job.step.Status == common.BuildStatusError {
+		job.step.Status = common.BuildStatusCancel
+	}*/
 }
 
 func (c *BuildTask) getRepo() error {
@@ -337,9 +338,11 @@ func (c *BuildTask) getRepo() error {
 		return nil
 	}
 	os.MkdirAll(c.repoPaths, 0750)
-	err := c.gitClone(c.ctx, c.repoPaths, c.build.Repo)
-	if err != nil {
-		return err
+	if c.repoPath != "" {
+		err := c.gitClone(c.ctx, c.repoPaths, c.build.Repo)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -397,7 +400,7 @@ func (c *BuildTask) gitClone(ctx context.Context, clonePath string, repo *runtim
 	if plumbing.IsHash(repo.Sha) {
 		err = util.CheckOutHash(repository, repo.Sha)
 		if err != nil {
-			return err
+			return fmt.Errorf("CheckOutHash [%s] err:%v", repo.Sha, err)
 		}
 	}
 	return nil
