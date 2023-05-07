@@ -6,6 +6,7 @@ require (
 	github.com/boltdb/bolt v1.3.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.0
+	github.com/cloudwego/hertz v0.6.3
 	github.com/go-git/go-git/v5 v5.6.1
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gokins/core v0.0.0-20221114063511-e32796e39c37
